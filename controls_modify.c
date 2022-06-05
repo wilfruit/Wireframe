@@ -44,7 +44,6 @@ int     ft_rotate(int keycode, t_vars *fdf)
     if (keycode == 14)
         fdf->angle_z += 0.20;
     ft_draw_wireframe(fdf);
-    printf("angle y est %f\n", fdf->angle_y);
     return (0);
 }
 

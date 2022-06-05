@@ -60,6 +60,6 @@ int key_press(int keycode, void *param)
 
 void    init_controls(t_vars *fdf)
 {
-    mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
-	mlx_hook(fdf->win_ptr, 17, 0, close, fdf);
+    	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	mlx_hook(fdf->win_ptr, 17, 0, ft_close, fdf);
 }

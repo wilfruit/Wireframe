@@ -6,12 +6,20 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:51:16 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/02/20 18:18:21 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/05 21:56:52 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"fdf.h"
 #include"get_next_line.h"
+
+static void	wrong_file(char *argv)
+{
+	ft_putstr_fd(argv, 2);
+	ft_putstr_fd(" : ", 2);
+	ft_putstr_fd("File does not exist/is not readable\n", 2);
+	exit(1);
+}
 
 int	ft_fill_map(char *argv, t_vars *fdf)
 {
@@ -20,7 +28,7 @@ int	ft_fill_map(char *argv, t_vars *fdf)
 	char	*str;
 
 	fdf->y_map = 0;
-	fd = open(argv, O_RDWR);
+	fd = open(argv, O_RDONLY);
 	if (fd < 1)
 		return (0);
 	while (fdf->y_map < fdf->height)
@@ -48,7 +56,7 @@ int **create_map(char *argv, t_vars *fdf)
 
 	fd = open(argv, O_RDWR);
 	if (fd < 1)
-		return (0);
+		wrong_file(argv);
 	while((buffer = get_next_line(fd)))
 	{
 		str = ft_strjoinmod(str, buffer);
