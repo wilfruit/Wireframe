@@ -6,7 +6,7 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:51:16 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/06/05 21:56:52 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 00:05:30 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	main(int argc, char **argv)
 	fdf = (t_vars *)malloc(sizeof(t_vars));
 	fdf->mlx_ptr = mlx_init();
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1720, 920, "FDF");
-	mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, 860, 460, 0x0000FF00);
+	fdf->img.img = mlx_new_image(fdf->mlx_ptr, 1720, 920);
+	fdf->img.adr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, \
+	&fdf->img.line_len, &fdf->img.endian);
 	create_map(argv[1], fdf);
 	ft_fill_map(argv[1], fdf);
 	set_basic_values(fdf);

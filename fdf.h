@@ -6,7 +6,7 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:26:59 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/02/21 02:13:01 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 00:05:34 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 # include"libft.h"
 
 // Structure - MLX
+
+typedef struct	s_imgs
+{
+	void	*img;
+	char	*adr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}				t_imgs;
 
 typedef struct	s_vars {
 	void	*mlx_ptr;
@@ -45,6 +54,7 @@ typedef struct	s_vars {
 	int		y_map;
 	int		color;
 	int		menu_switch;
+	t_imgs	img;
 }				t_vars;
 
 
@@ -98,6 +108,7 @@ s_infos	get_slope_director(s_infos data, int x1, int x2, int y1, int y2);
 void	mlx_pixel_put_invert(void *ptr, void *win_ptr, int x, int y, int color, int win_y);
 void	bresenham(int x1, int x2, int y1, int y2, t_vars *fdf);
 void	ft_draw_wireframe(t_vars *fdf);
+void	ft_mlx_pixel_put(t_vars *fdf, int x, int y, int color);
 
 // MLX - Colors
 

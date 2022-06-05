@@ -6,7 +6,7 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:53:03 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/02/21 02:04:35 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 01:42:43 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,13 @@ void	bresenham(int x1, int x2, int y1, int y2, t_vars *fdf)
 	x2 = pointB.x;
 	y2 = pointB.y;
 	data = get_slope_director(data, x1, x2, y1, y2);
-	color = (pointA.z || pointB.z) ? 0x25DFBD : 0x0080B4;
-	color = (pointA.z != pointB.z) ? 0x32EECB : color;
+//	color = 0x0076bfff;
+//	color = 0x00f6da50;
+	color = 0x0013DDA2;
 	while (!(x1 == x2 && y1 == y2))
 	{
 		if (x1 < 1720 && x1 > 0 && y1 < 920 && y1 > 0)
- 			mlx_pixel_put(fdf->mlx_ptr, fdf->win_ptr, x1, y1, color);
+			ft_mlx_pixel_put(fdf, x1, y1, color);
 		data.slope_director = 2 * data.slope_error;
 		if (data.slope_director >= data.dy) 
 		{ 
@@ -103,8 +104,9 @@ void	ft_draw_wireframe(t_vars *fdf)
 
 	y = 0;
 	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
-/* 	color_background(fdf, 0x00CCCCCC); */
-	print_menu(fdf);
+ 	//color_background(fdf, 0x00332417);
+	//color_background(fdf, 0x00004D36);
+	color_background(fdf, 0x00024431);
 	while (y < fdf->height)
 	{
 		x = 0;
@@ -118,4 +120,6 @@ void	ft_draw_wireframe(t_vars *fdf)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
+	print_menu(fdf);
 }

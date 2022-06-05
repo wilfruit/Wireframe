@@ -12,6 +12,10 @@ int     ft_switch_menu(int keycode, t_vars *fdf)
         fdf->menu_switch -= 1;
     else if (keycode == 4 && fdf->menu_switch == 0)
         fdf->menu_switch += 1;
+    mlx_destroy_image(fdf->mlx_ptr, fdf->img.img);
+	fdf->img.img = mlx_new_image(fdf->mlx_ptr, 1720, 920);
+	fdf->img.adr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, \
+	&fdf->img.line_len, &fdf->img.endian);
     ft_draw_wireframe(fdf);
     return (0);
 }
@@ -33,6 +37,9 @@ int ft_restart_values(int keycode, t_vars *fdf)
     fdf->projection = 1;
     fdf->x_mov = 0;
     fdf->y_mov = 0;
+    fdf->img.img = mlx_new_image(fdf->mlx_ptr, 1720, 920);
+	fdf->img.adr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, \
+	&fdf->img.line_len, &fdf->img.endian);
     ft_draw_wireframe(fdf);
     return (0);
 }
@@ -60,6 +67,6 @@ int key_press(int keycode, void *param)
 
 void    init_controls(t_vars *fdf)
 {
-    	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+    mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
 	mlx_hook(fdf->win_ptr, 17, 0, ft_close, fdf);
 }
