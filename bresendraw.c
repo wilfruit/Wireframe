@@ -6,22 +6,22 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:53:03 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/06/06 01:42:43 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 02:38:43 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"fdf.h"
 
-s_infos	get_slope_director(s_infos data, int x1, int x2, int y1, int y2)
+s_infos	get_slope_director(s_infos data, t_vars *fdf)
 {
-	data.dx = ft_abs(x2 - x1);
-	data.dy = -ft_abs(y2 - y1);
+	data.dx = ft_abs(fdf->x2 - fdf->x1);
+	data.dy = -ft_abs(fdf->y2 - fdf->y1);
 	data.slope_director = 0;
-	if (x1 < x2)
+	if (fdf->x1 < fdf->x2)
 		data.x_increment = 1;
 	else
 		data.x_increment = -1;
-	if (y1 < y2)
+	if (fdf->y1 < fdf->y2)
 		data.y_increment = 1;
 	else
 		data.y_increment = -1;
@@ -48,6 +48,8 @@ Vector	set_point(int x, int y, t_vars fdf)
 		Project_perspective(&point, &fdf);
 	if (fdf.projection == 3)
  	 	Project_oblique(&point, &fdf);
+	if (fdf.projection == 4)
+		Project_stereo(&point, &fdf);
 	return (point);
 }
 
@@ -61,65 +63,39 @@ void	init_data(s_infos *data)
 	data->y_increment = 0;
 }
 
-void	bresenham(int x1, int x2, int y1, int y2, t_vars *fdf)
+static void	draw_line(s_infos *data, t_vars *fdf)
 {
-	s_infos	data;
-	Vector	pointA;
-	Vector	pointB;
-	int		color;
-
-	init_data(&data);
-	pointA = set_point(x1, y1, *fdf);
-	pointB = set_point(x2, y2, *fdf);
- 	x1 = pointA.x;
-	y1 = pointA.y;
-	x2 = pointB.x;
-	y2 = pointB.y;
-	data = get_slope_director(data, x1, x2, y1, y2);
-//	color = 0x0076bfff;
-//	color = 0x00f6da50;
-	color = 0x0013DDA2;
-	while (!(x1 == x2 && y1 == y2))
+	while (!(fdf->x1 == fdf->x2 && fdf->y1 == fdf->y2))
 	{
-		if (x1 < 1720 && x1 > 0 && y1 < 920 && y1 > 0)
-			ft_mlx_pixel_put(fdf, x1, y1, color);
-		data.slope_director = 2 * data.slope_error;
-		if (data.slope_director >= data.dy) 
+		if (fdf->x1 < 1720 && fdf->x1 > 0 && fdf->y1 < 920 && fdf->y1 > 0)
+			ft_mlx_pixel_put(fdf, fdf->x1, fdf->y1, 0x0013DDA2);
+		data->slope_director = 2 * data->slope_error;
+		if (data->slope_director >= data->dy) 
 		{ 
-			data.slope_error += data.dy; 
-			x1 += data.x_increment; 
+			data->slope_error += data->dy; 
+			fdf->x1 += data->x_increment; 
 		}
-		if (data.slope_director <= data.dx) 
+		if (data->slope_director <= data->dx) 
 		{ 
-			data.slope_error += data.dx; 
-			y1 += data.y_increment; 
+			data->slope_error += data->dx; 
+			fdf->y1 += data->y_increment; 
 		}
 	}
 }
 
-void	ft_draw_wireframe(t_vars *fdf)
+void	bresenham(t_vars *fdf)
 {
-	int	x;
-	int	y;
+	s_infos	data;
+	Vector	pointA;
+	Vector	pointB;
 
-	y = 0;
-	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
- 	//color_background(fdf, 0x00332417);
-	//color_background(fdf, 0x00004D36);
-	color_background(fdf, 0x00024431);
-	while (y < fdf->height)
-	{
-		x = 0;
-		while (x < fdf->width)
-		{
-			if (x < fdf->width - 1)
-				bresenham(x, x + 1, y, y, fdf);
-			if (y < fdf->height - 1)
-				bresenham(x, x, y, y + 1, fdf);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
-	print_menu(fdf);
+	init_data(&data);
+	pointA = set_point(fdf->x1, fdf->y1, *fdf);
+	pointB = set_point(fdf->x2, fdf->y2, *fdf);
+ 	fdf->x1 = pointA.x;
+	fdf->y1 = pointA.y;
+	fdf->x2 = pointB.x;
+	fdf->y2 = pointB.y;
+	data = get_slope_director(data, fdf);
+	draw_line(&data, fdf);
 }

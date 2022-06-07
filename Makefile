@@ -25,7 +25,7 @@ FRAMEWORKS = -framework OpenGl -framework Appkit
 %.o : %.c
 	${CC} -I. -o $@ -c $? ${FLAGS}
 
-SRCS = create_map.c create_map_utils.c get_next_line.c get_next_line_utils.c bresendraw.c math_perso.c \
+SRCS = main.c create_map.c create_map_utils.c get_next_line.c get_next_line_utils.c bresendraw.c math_perso.c \
 matrix_operations.c set_basic_values.c init_controls.c mlx_visual.c controls_modify.c
 
 OBJS = ${SRCS:.c=.o}

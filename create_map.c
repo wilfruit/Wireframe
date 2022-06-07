@@ -6,12 +6,11 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:51:16 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/06/06 00:05:30 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 02:29:49 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"fdf.h"
-#include"get_next_line.h"
 
 static void	wrong_file(char *argv)
 {
@@ -19,6 +18,49 @@ static void	wrong_file(char *argv)
 	ft_putstr_fd(" : ", 2);
 	ft_putstr_fd("File does not exist/is not readable\n", 2);
 	exit(1);
+}
+
+static void loop_wireframe(t_vars *fdf, int x, int y)
+{
+	while (y < fdf->height)
+	{
+		x = 0;
+		while (x < fdf->width)
+		{
+			if (x < fdf->width - 1)
+			{
+				fdf->x1 = x;
+				fdf->x2 = x + 1;
+				fdf->y1 = y;
+				fdf->y2 = y;
+				bresenham(fdf);
+			}
+			if (y < fdf->height - 1)
+			{
+				fdf->x1 = x;
+				fdf->x2 = x;
+				fdf->y1 = y;
+				fdf->y2 = y + 1;
+				bresenham(fdf);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void	ft_draw_wireframe(t_vars *fdf)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
+	color_background(fdf, 0x00024431);
+	loop_wireframe(fdf, x, y);
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
+	print_menu(fdf);
 }
 
 int	ft_fill_map(char *argv, t_vars *fdf)
@@ -70,28 +112,5 @@ int **create_map(char *argv, t_vars *fdf)
 	fdf->map = allocate_int_tab(fdf->width, fdf->height);
 	if (!fdf->map)
 		return (0);
-	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	t_vars	*fdf;
-	int	i;
-
-	i = 0;
-	if (argc != 2)
-		return (1);
-	fdf = (t_vars *)malloc(sizeof(t_vars));
-	fdf->mlx_ptr = mlx_init();
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1720, 920, "FDF");
-	fdf->img.img = mlx_new_image(fdf->mlx_ptr, 1720, 920);
-	fdf->img.adr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, \
-	&fdf->img.line_len, &fdf->img.endian);
-	create_map(argv[1], fdf);
-	ft_fill_map(argv[1], fdf);
-	set_basic_values(fdf);
-	ft_draw_wireframe(fdf);
-	init_controls(fdf);
-	mlx_loop(fdf->mlx_ptr);
 	return (0);
 }

@@ -61,12 +61,14 @@ int     ft_rotate(int keycode, t_vars *fdf)
 
 int ft_change_projection(int keycode, t_vars *fdf)
 {
-    if (keycode == 35 && fdf->projection == 3)
+    if (keycode == 35 && fdf->projection == 4)
         fdf->projection = 1;
     else if (keycode == 35 && fdf->projection == 1)
         fdf->projection = 2;
     else if (keycode == 35 && fdf->projection == 2)
         fdf->projection = 3;
+    else if (keycode == 35 && fdf->projection == 3)
+        fdf->projection = 4;
     fdf->img.img = mlx_new_image(fdf->mlx_ptr, 1720, 920);
 	fdf->img.adr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, \
 	&fdf->img.line_len, &fdf->img.endian);

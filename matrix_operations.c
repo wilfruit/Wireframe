@@ -6,7 +6,7 @@
 /*   By: wilfried <wilfried@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:36:47 by wgaspar           #+#    #+#             */
-/*   Updated: 2022/02/21 17:23:43 by wilfried         ###   ########.fr       */
+/*   Updated: 2022/06/06 03:34:29 by wilfried         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,17 @@ void Project_oblique(Vector *Point, t_vars *fdf)
 	Point->y = Point->y + (0.5 * Point->z * sin(63.4)) + fdf->y_mov + 460;
 }
 
-/* void Project_Conique(Vector *Point, t_vars *fdf)
+/* void Project_stereo(Vector *Point, t_vars *fdf)
 {
-	float	n;
-	float	p;
-	float	F;
-
-	n = (ln(cos(44) * sec(49))) / (ln(tan(0.25 * PI + (0.5 * 49)) * cot(0.25 * PI + (0.5 * 44))));
-	F = (cos(44) * (tan(0.25 * PI + (0.5 * 44) * tan(0.25 * PI + (0.5 * 44))))) / n;
+	Point->x = Point->x / (1 - Point->z) + fdf->x_mov + 860;
+	Point->y = Point->y / (1 - Point->z) + fdf->y_mov + 460;
 } */
 
 void Project_stereo(Vector *Point, t_vars *fdf)
 {
-	Point->x = Point->x / (1 - Point->z) + fdf->x_mov + 860;
-	Point->y = Point->y / (1 - Point->z) + fdf->y_mov + 460;
+	int	d;
+
+	d = sqrt((double)(Point->x * Point->x) + (Point->y * Point->y) + (Point->z * Point->z));
+ 	Point->x = (Point->x  * 300) / d + fdf->x_mov + 860;
+	Point->y = (Point->y  * 300) / d + fdf->y_mov + 460;
 }
