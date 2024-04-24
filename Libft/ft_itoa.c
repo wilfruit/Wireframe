@@ -52,10 +52,8 @@ char	*ft_itoa(int n)
 {
 	char			*s;
 	unsigned int	value;	
-	int				i;
 	int				size;
 
-	i = 1;
 	size = ft_nsize(n);
 	value = 0;
 	s = malloc(sizeof(char) * (ft_nsize(n) + 1));

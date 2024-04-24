@@ -35,13 +35,6 @@ Vector	apply_rotation(Vector point, t_vars *fdf)
 
 void Project_perspective(Vector *Point, t_vars *fdf)
 {
-	float	temp_x;
-	float	temp_y;
-	float	temp_z;
-
-	temp_x = Point->x;
-	temp_y = Point->y;
-	temp_z = -1 * Point->z;
 	if(!Point->z)
 		Point->z=1;
 

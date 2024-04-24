@@ -16,11 +16,9 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	char	*udst;
 	char	*usrc;
-	int		i;
 
 	udst = (char *)dst;
 	usrc = (char *)src;
-	i = 0;
 	if (src >= dst)
 		ft_memcpy(dst, src, len);
 	else

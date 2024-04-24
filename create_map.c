@@ -57,7 +57,7 @@ void	ft_draw_wireframe(t_vars *fdf)
 	x = 0;
 	y = 0;
 	mlx_clear_window(fdf->mlx_ptr, fdf->win_ptr);
-	color_background(fdf, 0x00024431);
+	color_background(fdf, 0x000000);
 	loop_wireframe(fdf, x, y);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
 	print_menu(fdf);

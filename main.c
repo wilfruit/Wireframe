@@ -15,9 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_vars	*fdf;
-	int	i;
 
-	i = 0;
 	if (argc != 2)
 		return (1);
 	fdf = (t_vars *)malloc(sizeof(t_vars));
